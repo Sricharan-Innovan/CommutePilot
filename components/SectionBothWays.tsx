@@ -125,7 +125,7 @@ export default function SectionBothWays() {
         <Reveal delay={0.08} className="min-w-[320px] flex-[1.25_1_480px]">
           <div
             ref={ref}
-            className="flex items-stretch gap-3.5 rounded-[28px] bg-surface-2 p-5"
+            className="flex flex-col gap-3 rounded-[28px] bg-surface-2 p-4 sm:flex-row sm:items-stretch sm:gap-3.5 sm:p-5"
           >
             <RoutePanel data={MORNING} active={step === 0} />
             <RoutePanel data={EVENING} active={step === 1} />

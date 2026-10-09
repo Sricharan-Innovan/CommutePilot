@@ -261,7 +261,7 @@ export default function Console() {
                 <span className="text-white/55">Legs</span>
                 <span className="text-white/30">Handed over automatically</span>
               </div>
-              <div className="mt-2 grid grid-cols-5 gap-1.5">
+              <div className="mt-2 grid grid-cols-3 gap-1.5 sm:grid-cols-5">
                 {LEG_LABELS.map((l, n) => {
                   const on = n === activeLeg;
                   return (

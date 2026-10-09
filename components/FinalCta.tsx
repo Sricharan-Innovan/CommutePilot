@@ -13,6 +13,41 @@ const NODES = [
   { k: "The last walk", side: "right", top: 196, color: "var(--color-ink-2)", sub: "distance alerts" },
 ] as const;
 
+function NodeCard({
+  n,
+  lit,
+}: {
+  n: (typeof NODES)[number];
+  lit: boolean;
+}) {
+  return (
+    <div className="flex items-center gap-2.5 rounded-[16px] bg-white px-3.5 py-3 shadow-[0_14px_34px_-24px_rgba(17,17,17,.5)]">
+      <span
+        className="grid size-[30px] shrink-0 place-items-center rounded-[9px] text-white"
+        style={{ background: n.color }}
+      >
+        {n.k === "City bus" ? (
+          <BusGlyph className="size-[16px]" />
+        ) : n.k === "The last walk" ? (
+          <WalkGlyph className="size-[16px]" />
+        ) : (
+          <TrainGlyph className="size-[16px]" />
+        )}
+      </span>
+      <span className="min-w-0">
+        <b className="block truncate text-[13.5px] font-medium">{n.k}</b>
+        <span className="flex items-center gap-1.5 text-[11.5px] text-ink-3">
+          <i
+            className="size-[5px] shrink-0 rounded-full transition-opacity duration-500"
+            style={{ background: n.color, opacity: lit ? 1 : 0.3 }}
+          />
+          <span className="truncate">{n.sub}</span>
+        </span>
+      </span>
+    </div>
+  );
+}
+
 export default function FinalCta() {
   const { ref, onScreen } = useOnScreen<HTMLDivElement>(0.2);
   const [pulse] = useSteps(4, 1400, onScreen);
@@ -48,39 +83,35 @@ export default function FinalCta() {
           />
         </Reveal>
 
-        {/* constellation */}
-        <div ref={ref} className="relative mx-auto mt-16 h-[280px] max-w-[840px] sm:h-[300px]">
+        {/* mobile: the four modes as a plain grid, no overlap to go wrong */}
+        <div ref={ref} className="mt-12 grid grid-cols-1 gap-2.5 min-[420px]:grid-cols-2 md:hidden">
+          {NODES.map((n, idx) => (
+            <Reveal key={n.k} delay={0.05 * idx}>
+              <NodeCard n={n} lit={pulse === idx} />
+            </Reveal>
+          ))}
+          <div className="col-span-full mt-2 flex flex-col items-center gap-3">
+            <span className="grid size-[64px] place-items-center rounded-[20px] bg-ink text-white shadow-[0_26px_50px_-24px_rgba(17,17,17,.8)]">
+              <TrainGlyph className="size-[32px]" />
+            </span>
+            <span className="flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-[12px] shadow-[0_10px_26px_-18px_rgba(17,17,17,.6)]">
+              <i className="anim-blink size-[6px] rounded-full bg-alert" />
+              <b className="font-medium">one stop before</b>
+              <span className="text-ink-3">{NETWORKS[cityIdx].city}</span>
+            </span>
+          </div>
+        </div>
+
+        {/* desktop: the constellation */}
+        <div className="relative mx-auto mt-16 hidden h-[300px] max-w-[840px] md:block">
           {NODES.map((n, idx) => (
             <Reveal
               key={n.k}
               delay={0.06 * idx}
               style={{ top: n.top }}
-              className={`absolute w-[150px] sm:w-[190px] ${n.side === "left" ? "left-0" : "right-0"}`}
+              className={`absolute w-[190px] ${n.side === "left" ? "left-0" : "right-0"}`}
             >
-              <div className="flex items-center gap-2.5 rounded-[16px] bg-white px-3.5 py-3 shadow-[0_14px_34px_-24px_rgba(17,17,17,.5)]">
-                <span
-                  className="grid size-[30px] shrink-0 place-items-center rounded-[9px] text-white"
-                  style={{ background: n.color }}
-                >
-                  {n.k === "City bus" ? (
-                    <BusGlyph className="size-[16px]" />
-                  ) : n.k === "The last walk" ? (
-                    <WalkGlyph className="size-[16px]" />
-                  ) : (
-                    <TrainGlyph className="size-[16px]" />
-                  )}
-                </span>
-                <span className="min-w-0">
-                  <b className="block truncate text-[13.5px] font-medium">{n.k}</b>
-                  <span className="flex items-center gap-1.5 text-[11.5px] text-ink-3">
-                    <i
-                      className="size-[5px] rounded-full transition-opacity duration-500"
-                      style={{ background: n.color, opacity: pulse === idx ? 1 : 0.3 }}
-                    />
-                    {n.sub}
-                  </span>
-                </span>
-              </div>
+              <NodeCard n={n} lit={pulse === idx} />
             </Reveal>
           ))}
 

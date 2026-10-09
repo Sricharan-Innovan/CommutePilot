@@ -154,7 +154,7 @@ function MissedStop() {
           />
         </span>
         <span
-          className={`absolute top-[26px] left-1/2 -translate-x-1/2 rounded-full px-2.5 py-1 text-[11px] transition-all duration-500 ${
+          className={`absolute top-[26px] left-1/2 w-max max-w-full -translate-x-1/2 rounded-full px-2.5 py-1 text-center text-[10.5px] leading-tight whitespace-normal transition-all duration-500 sm:text-[11px] ${
             phase === 1 ? "bg-metro-red/10 text-metro-red opacity-100" : "opacity-0"
           }`}
         >
