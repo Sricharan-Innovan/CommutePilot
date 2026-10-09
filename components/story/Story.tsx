@@ -224,7 +224,7 @@ export default function Story({ clean = false, autoplay = true }: Props) {
   return (
     <div ref={ref} className="w-full">
       <div className="relative overflow-hidden rounded-[22px] bg-[#0f1115]">
-        <svg viewBox="0 0 960 540" className="block w-full" role="img" aria-label={`${scene.caption} ${scene.sub ?? ""}`}>
+        <svg viewBox="0 0 960 540" className="block w-full shrink-0" role="img" aria-label={`${scene.caption} ${scene.sub ?? ""}`}>
           <defs>
             <clipPath id="win">
               <rect x="60" y="70" width="840" height="190" rx="18" />
@@ -427,12 +427,15 @@ export default function Story({ clean = false, autoplay = true }: Props) {
 
         {/* caption */}
         {!scene.endCard && (
-          <div key={scene.id} className="anim-pop absolute inset-x-0 bottom-0 px-8 pb-7 text-center">
-            <p className="text-[clamp(20px,2.8vw,34px)] leading-tight font-semibold tracking-[-0.03em] text-white">
+          <div
+            key={scene.id}
+            className="anim-pop static min-h-[86px] px-5 pt-2 pb-7 text-center sm:absolute sm:inset-x-0 sm:bottom-0 sm:min-h-0 sm:px-8"
+          >
+            <p className="text-[clamp(17px,2.8vw,34px)] leading-tight font-semibold tracking-[-0.03em] text-white">
               {scene.caption}
             </p>
             {scene.sub && (
-              <p className="mt-1.5 text-[clamp(13px,1.5vw,17px)] text-white/55">{scene.sub}</p>
+              <p className="mt-1.5 text-[clamp(12.5px,1.5vw,17px)] text-white/55">{scene.sub}</p>
             )}
           </div>
         )}
