@@ -1,0 +1,19 @@
+node_modules
+.next
+out
+build
+*.tsbuildinfo
+next-env.d.ts
+
+# local env files
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# local notes, not for the repo
+VOTE-ADMIN-KEYS.local.txt
+.DS_Store
+.claude/
+

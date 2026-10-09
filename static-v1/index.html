@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>CommutePilot — wakes you one stop before your station</title>
+<meta name="description" content="CommutePilot runs your daily metro and bus commute on autopilot. One tap at your departure time, then nap, read or listen — it alerts you one stop before your interchange or exit." />
+<meta property="og:title" content="CommutePilot — the commute autopilot" />
+<meta property="og:description" content="Nap on the train. We'll wake you one stop early." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23111'/%3E%3Crect x='10' y='6' width='12' height='13' rx='4' fill='%23FFE44D'/%3E%3Crect x='12' y='8.5' width='8' height='4' rx='1.5' fill='%23111'/%3E%3Ccircle cx='13' cy='16' r='1.4' fill='%23111'/%3E%3Ccircle cx='19' cy='16' r='1.4' fill='%23111'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ============================ NAV ============================ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="CommutePilot home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="5.5" y="3" width="13" height="14.5" rx="4.4" fill="currentColor"/><rect x="8" y="5.8" width="8" height="4.6" rx="1.7" fill="#FFE44D"/><circle cx="9.6" cy="13.6" r="1.35" fill="#FFE44D"/><circle cx="14.4" cy="13.6" r="1.35" fill="#FFE44D"/><path d="M8.6 17.8 6.8 21M15.4 17.8 17.2 21" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </span>
+      <span class="brand-name">commutepilot</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#start">Start</a>
+      <a href="#alert">One stop early</a>
+      <a href="#compare">Compare</a>
+      <a href="#features">Features</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-dark btn-sm nav-cta" href="https://t.me/Travel_Notifier_bot" target="_blank" rel="noopener">
+      <svg class="i tg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 4.3 2.9 11.4c-1.1.4-1.1 1.1-.2 1.4l4.7 1.5 1.8 5.5c.2.6.4.8 1 .8.5 0 .7-.2 1-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.2-.5-1.8-1.5-1.7Z" fill="currentColor"/></svg>
+      <span class="nav-cta-text">Start on Telegram</span>
+    </a>
+  </div>
+</header>
+
+<main id="main">
+<span id="top"></span>
+
+<!-- ============================ HERO ============================ -->
+<section class="sec hero">
+  <div class="wrap center">
+    <p class="badge reveal">Built for metro, bus and multi-leg commutes</p>
+    <h1 class="display reveal" style="--d:.06s">
+      Nap on the train.<br />
+      <span class="dim">We'll wake you one stop early.</span>
+    </h1>
+    <p class="lede reveal" style="--d:.12s">
+      Set your route and your times once. Every weekday CommutePilot taps you on the shoulder at departure,
+      then rings at the station <em>before</em> yours &mdash; so you are at the doors before they open.
+    </p>
+    <div class="cta-row reveal" style="--d:.18s">
+      <a class="btn btn-dark" href="https://t.me/Travel_Notifier_bot" target="_blank" rel="noopener">
+        <svg class="i tg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 4.3 2.9 11.4c-1.1.4-1.1 1.1-.2 1.4l4.7 1.5 1.8 5.5c.2.6.4.8 1 .8.5 0 .7-.2 1-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.2-.5-1.8-1.5-1.7Z" fill="currentColor"/></svg>
+        Start on Telegram
+      </a>
+      <a class="btn btn-ghost" href="#how">See how it works <span class="arr">&darr;</span></a>
+    </div>
+    <p class="fine reveal" style="--d:.24s">Free. Nothing to install &mdash; it runs inside the Telegram app you already have.</p>
+  </div>
+
+  <div class="wrap hero-stage">
+    <div class="hero-grid">
+
+      <aside class="rail card-soft reveal" style="--d:.30s" aria-hidden="true">
+        <div class="rail-head">
+          <span class="rail-title">Morning run</span>
+          <span class="pill-live"><i></i>tracking</span>
+        </div>
+        <ol class="rail-list" id="railList">
+          <li><span class="dot walk"></span><span class="n">Home</span><span class="mode">6 min walk</span></li>
+          <li><span class="dot red"></span><span class="n">Dilsukhnagar</span><span class="mode">Red</span></li>
+          <li><span class="dot red"></span><span class="n">Malakpet</span><span class="mode"></span></li>
+          <li><span class="dot red"></span><span class="n">MGBS</span><span class="mode"></span></li>
+          <li><span class="dot red"></span><span class="n">Lakdikapul</span><span class="mode"></span></li>
+          <li class="warn"><span class="dot red"></span><span class="n">Punjagutta</span><span class="mode">alert</span></li>
+          <li class="swap"><span class="dot swap"></span><span class="n">Ameerpet</span><span class="mode">change</span></li>
+          <li><span class="dot blue"></span><span class="n">Madhapur</span><span class="mode">Blue</span></li>
+          <li class="warn"><span class="dot blue"></span><span class="n">Durgam Cheruvu</span><span class="mode">alert</span></li>
+          <li class="end"><span class="dot end"></span><span class="n">HITEC City</span><span class="mode">office</span></li>
+        </ol>
+      </aside>
+
+      <div class="phone-wrap reveal" style="--d:.36s">
+        <div class="phone" id="phone">
+          <div class="phone-screen">
+            <div class="chat-top">
+              <span class="avatar">CP</span>
+              <span class="who"><b>CommutePilot</b><i>bot &middot; online</i></span>
+              <span class="sig" aria-hidden="true"></span>
+            </div>
+            <div class="chat" id="chat"></div>
+            <div class="chat-input" aria-hidden="true"><span>Message</span><span class="mic"></span></div>
+          </div>
+        </div>
+
+        <div class="float-alert" id="floatAlert" aria-hidden="true">
+          <span class="fa-tag"><i></i>1 stop before</span>
+          <p class="fa-main">Approaching <b>Punjagutta</b></p>
+          <p class="fa-sub">Next stop: <b>Ameerpet</b> &middot; change to Blue Line</p>
+        </div>
+      </div>
+
+      <aside class="side-stats reveal" style="--d:.42s">
+        <div class="stat card-soft">
+          <span class="stat-n" data-count="59">0</span>
+          <span class="stat-l">stations held in sequence, in both directions</span>
+        </div>
+        <div class="stat card-soft">
+          <span class="stat-n"><span data-count="3">0</span> lines</span>
+          <span class="stat-l">Red, Blue and Green, interchanges included</span>
+        </div>
+        <div class="stat card-soft">
+          <span class="stat-n">500 m</span>
+          <span class="stat-l">warning before a bus stop, on any street</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <ul class="logo-strip reveal">
+      <li>Metro legs</li><li>City bus legs</li><li>Walking legs</li>
+      <li>Interchanges</li><li>Auto evening return</li><li>WFH &amp; leave days</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ START ============================ -->
+<section class="sec" id="start">
+  <div class="wrap">
+    <p class="eyebrow reveal">The 8:15 problem</p>
+    <h2 class="h2 reveal" style="--d:.05s">No app to open.<br /><span class="dim">Just one tap.</span></h2>
+    <p class="sec-lede reveal" style="--d:.1s">
+      Opening a maps app while running for a train is five steps you will skip. CommutePilot comes to you instead:
+      at your departure time a message lands on your lock screen with four buttons. Tap one. That is the whole morning.
+    </p>
+
+    <div class="demo-card reveal" style="--d:.14s">
+      <div class="lock">
+        <div class="lock-time"><b id="lockTime">8:15</b><span id="lockDay">Monday 8 October</span></div>
+        <div class="notif" id="notif">
+          <div class="notif-head"><span class="notif-app"><span class="avatar sm">CP</span>CommutePilot</span><span class="notif-ago">now</span></div>
+          <p class="notif-title">Morning. Dilsukhnagar &rarr; HITEC City?</p>
+          <p class="notif-body" id="notifBody">Your usual run takes 48 minutes. Alerts at Punjagutta and Durgam Cheruvu.</p>
+          <div class="notif-actions" id="notifActions">
+            <button class="na primary" data-act="start">Start journey</button>
+            <button class="na" data-act="wfh">WFH</button>
+            <button class="na" data-act="leave">On leave</button>
+            <button class="na" data-act="snooze">Snooze 30</button>
+          </div>
+          <p class="notif-result" id="notifResult" role="status"></p>
+        </div>
+        <p class="lock-hint">Try the buttons &mdash; this is the real choice you get every morning.</p>
+      </div>
+
+      <div class="trio">
+        <div class="trio-item">
+          <span class="ti-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+          <h3>Start journey</h3>
+          <p>Tracking begins in the background. Lock the phone and forget about it.</p>
+        </div>
+        <div class="trio-item">
+          <span class="ti-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v9h14v-9"/></svg>
+          </span>
+          <h3>WFH or on leave</h3>
+          <p>One tap silences the day. No alarm at 6:45 pm for a train you never took.</p>
+        </div>
+        <div class="trio-item">
+          <span class="ti-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg>
+          </span>
+          <h3>Snooze 30</h3>
+          <p>Running late? It asks again in half an hour. Or say <em>hi</em> and the buttons come back.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ALERT ============================ -->
+<section class="sec" id="alert">
+  <div class="wrap">
+    <p class="eyebrow reveal">The deboarding window</p>
+    <h2 class="h2 reveal" style="--d:.05s">Rings one stop early.<br /><span class="dim">Not as the doors open.</span></h2>
+    <p class="sec-lede reveal" style="--d:.1s">
+      A geofence on your destination fires when you are already pulling in &mdash; useless in a packed coach.
+      CommutePilot knows which station sits before yours on that line, in that direction, and rings there instead.
+      You get the length of one hop to stand up, get your bag and reach the doors.
+    </p>
+
+    <div class="line-demo card-soft reveal" style="--d:.14s">
+      <div class="ld-head">
+        <div class="ld-tabs" role="tablist" aria-label="Pick a line">
+          <button class="ld-tab is-on" role="tab" aria-selected="true" data-line="red">Red Line</button>
+          <button class="ld-tab" role="tab" aria-selected="false" data-line="blue">Blue Line</button>
+          <button class="ld-tab" role="tab" aria-selected="false" data-line="green">Green Line</button>
+        </div>
+        <button class="ld-replay" id="ldReplay" type="button">Replay run</button>
+      </div>
+
+      <div class="ld-track" id="ldTrack">
+        <div class="ld-line"><span class="ld-fill" id="ldFill"></span></div>
+        <div class="ld-train" id="ldTrain" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="15" rx="4.5" fill="currentColor"/><rect x="7.6" y="6" width="8.8" height="4.6" rx="1.6" fill="#fff"/><circle cx="9.3" cy="13.8" r="1.4" fill="#fff"/><circle cx="14.7" cy="13.8" r="1.4" fill="#fff"/></svg>
+        </div>
+        <ul class="ld-stops" id="ldStops"></ul>
+      </div>
+
+      <div class="ld-foot">
+        <div class="ld-say" id="ldSay"><span class="ld-say-tag">in your earphones</span><p id="ldSayText">Waiting for departure.</p></div>
+        <div class="ld-meta">
+          <div><b id="ldEta">—</b><span>to your stop</span></div>
+          <div><b id="ldNext">—</b><span>next station</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trio reveal" style="--d:.18s">
+      <div class="trio-item">
+        <span class="ti-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h16M4 12h10M4 17h7"/></svg></span>
+        <h3>Sequence, not distance</h3>
+        <p>It reads the line as an ordered list, so the station before yours is a fact, not a guess from a radius.</p>
+      </div>
+      <div class="trio-item">
+        <span class="ti-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v10M7 20v-2M17 20V10M17 4v2"/><circle cx="7" cy="17" r="2.6"/><circle cx="17" cy="7" r="2.6"/></svg></span>
+        <h3>Both directions</h3>
+        <p>Punjagutta comes before Ameerpet going west. Going home it is SR Nagar. The engine flips with you.</p>
+      </div>
+      <div class="trio-item">
+        <span class="ti-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="3"/><path d="M12 2a9 9 0 0 1 9 9c0 5-9 11-9 11S3 16 3 11a9 9 0 0 1 9-9Z"/></svg></span>
+        <h3>Buses get 500 m</h3>
+        <p>No sequence on a bus route, so you get a geofence ring half a kilometre out &mdash; enough to press the bell.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ COMPARE ============================ -->
+<section class="sec" id="compare">
+  <div class="wrap">
+    <p class="eyebrow reveal">Why not just use Maps</p>
+    <h2 class="h2 reveal" style="--d:.05s">Maps is a map.<br /><span class="dim">This is a routine.</span></h2>
+    <p class="sec-lede reveal" style="--d:.1s">
+      Nothing here beats Google Maps at finding a route. The gap is everything that happens on the 240 mornings
+      you take the same route you already know by heart.
+    </p>
+
+    <div class="table-wrap card-soft reveal" style="--d:.14s">
+      <table class="cmp">
+        <thead>
+          <tr><th scope="col">On a normal weekday</th><th scope="col">Maps-style navigation</th><th scope="col" class="ours">CommutePilot</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Starting the trip</th>
+            <td data-label="Maps-style navigation">Unlock, open app, find the saved trip, press start</td>
+            <td class="ours" data-label="CommutePilot"><b>One tap</b> on a message that arrives on its own</td>
+          </tr>
+          <tr>
+            <th scope="row">When the alert fires</th>
+            <td data-label="Maps-style navigation">As you reach the destination stop</td>
+            <td class="ours" data-label="CommutePilot"><b>One station earlier</b>, with time to reach the doors</td>
+          </tr>
+          <tr>
+            <th scope="row">Interchanges</th>
+            <td data-label="Maps-style navigation">Shown on screen, if you are looking at the screen</td>
+            <td class="ours" data-label="CommutePilot">Announced before the change, then tracking moves to the next leg</td>
+          </tr>
+          <tr>
+            <th scope="row">Screen</th>
+            <td data-label="Maps-style navigation">Turn-by-turn, screen on, in your hand</td>
+            <td class="ours" data-label="CommutePilot">Screen off, phone in your pocket</td>
+          </tr>
+          <tr>
+            <th scope="row">Days you do not travel</th>
+            <td data-label="Maps-style navigation">No idea &mdash; it waits for you to open it</td>
+            <td class="ours" data-label="CommutePilot">WFH, leave and snooze are part of the prompt</td>
+          </tr>
+          <tr>
+            <th scope="row">The trip home</th>
+            <td data-label="Maps-style navigation">Search and set it up again</td>
+            <td class="ours" data-label="CommutePilot">Reversed for you, alerts flipped to match</td>
+          </tr>
+          <tr>
+            <th scope="row">Install</th>
+            <td data-label="Maps-style navigation">An app, an account, permissions</td>
+            <td class="ours" data-label="CommutePilot">A chat in Telegram</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fine reveal">Use both. Maps when the route is new, CommutePilot when it is not.</p>
+  </div>
+</section>
+
+<!-- ============================ FEATURES ============================ -->
+<section class="sec" id="features">
+  <div class="wrap center">
+    <p class="eyebrow reveal">Features</p>
+    <h2 class="h2 reveal" style="--d:.05s">A whole commute.<br /><span class="dim">One chat.</span></h2>
+  </div>
+
+  <div class="wrap bento">
+    <article class="bx bx-wide reveal">
+      <div class="bx-body">
+        <h3>Chains every leg into one trip</h3>
+        <p>Walk to the station, Red Line to the interchange, Blue Line out to HITEC City, a bus or a walk at the end.
+           One journey, handed from leg to leg without you touching anything.</p>
+      </div>
+      <div class="bx-art legs" aria-hidden="true">
+        <span class="leg walk">Walk</span><span class="hop"></span>
+        <span class="leg red">Red</span><span class="hop"></span>
+        <span class="leg swap">Change</span><span class="hop"></span>
+        <span class="leg blue">Blue</span><span class="hop"></span>
+        <span class="leg bus">Bus</span>
+      </div>
+    </article>
+
+    <article class="bx reveal" style="--d:.05s">
+      <div class="bx-body">
+        <h3>Sleep-proof alerts</h3>
+        <p>A long chime and a repeating buzz, not a polite tick. Written for someone who is actually asleep.</p>
+      </div>
+      <div class="bx-art pulse" aria-hidden="true"><span></span><span></span><span></span></div>
+    </article>
+
+    <article class="bx reveal" style="--d:.1s">
+      <div class="bx-body">
+        <h3>Spoken over your music</h3>
+        <p>Your podcast ducks, you hear the station name, the podcast comes back. No need to look up.</p>
+      </div>
+      <div class="bx-art eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </article>
+
+    <article class="bx reveal" style="--d:.15s">
+      <div class="bx-body">
+        <h3>Search that knows the city</h3>
+        <p>Type <em>DSNR</em>, <em>Mindspace</em> or your office name. Stations, stops and landmarks come back tagged.</p>
+      </div>
+      <div class="bx-art search" aria-hidden="true">
+        <span class="sr-row"><b>Ameerpet</b><i>Metro</i></span>
+        <span class="sr-row"><b>Mindspace</b><i>Landmark</i></span>
+        <span class="sr-row"><b>Kukatpally Y Jn</b><i>Bus</i></span>
+      </div>
+    </article>
+
+    <article class="bx bx-wide reveal" style="--d:.2s">
+      <div class="bx-body">
+        <h3>Evening runs itself</h3>
+        <p>The route you set in the morning is the route home, backwards. Different stations come before yours in that
+           direction, and the alerts move accordingly. You never set up a second trip.</p>
+      </div>
+      <div class="bx-art flip" aria-hidden="true">
+        <div class="flip-row"><span>Home</span><em>&rarr;</em><span>Office</span><b>8:15 am</b></div>
+        <div class="flip-row rev"><span>Office</span><em>&rarr;</em><span>Home</span><b>6:45 pm</b></div>
+      </div>
+    </article>
+
+    <article class="bx reveal" style="--d:.25s">
+      <div class="bx-body">
+        <h3>Nothing extra in the background</h3>
+        <p>Tracking rides on Telegram's own live location for the trip window, then stops. No second app sitting on your battery all day.</p>
+      </div>
+      <div class="bx-art batt" aria-hidden="true"><span class="b-shell"><i></i></span><span class="b-txt">trip window only</span></div>
+    </article>
+
+    <article class="bx reveal" style="--d:.3s">
+      <div class="bx-body">
+        <h3>Your route is yours</h3>
+        <p>Home, office and times are stored to run your alerts and nothing else. No ads, no selling it on, no feed.</p>
+      </div>
+      <div class="bx-art lock" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="4.5" y="10.5" width="15" height="10" rx="3"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/><path d="M12 14.5v2.5"/></svg>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============================ HOW ============================ -->
+<section class="sec" id="how">
+  <div class="wrap center">
+    <p class="eyebrow reveal">How it works</p>
+    <h2 class="h2 reveal" style="--d:.05s">Three minutes once.<br /><span class="dim">Then never again.</span></h2>
+  </div>
+
+  <div class="wrap steps-grid">
+    <div class="steps-nav reveal">
+      <button class="step is-on" data-step="1">
+        <span class="step-n">01</span>
+        <span class="step-t">Set the route and the times</span>
+        <span class="step-d">Morning and evening departure, the days you travel, and every stop in between — typed or dropped as a pin.</span>
+      </button>
+      <button class="step" data-step="2">
+        <span class="step-n">02</span>
+        <span class="step-t">Tap once at the door</span>
+        <span class="step-d">The prompt arrives at your departure time. Start, WFH, leave, or snooze thirty minutes.</span>
+      </button>
+      <button class="step" data-step="3">
+        <span class="step-n">03</span>
+        <span class="step-t">Put the phone away</span>
+        <span class="step-d">Sleep, read, scroll. It speaks up one stop before the interchange and one stop before your exit.</span>
+      </button>
+    </div>
+    <div class="steps-view card-soft reveal" style="--d:.08s">
+      <div class="sv is-on" data-view="1">
+        <div class="sv-chat">
+          <p class="b bot">Step 3 of 5 — where do you get off in the morning?</p>
+          <p class="b me">HITEC City</p>
+          <p class="b bot">Found <b>HITEC City</b> — Blue Line. Added as your destination.<br /><span class="muted">Evening return will start here at 6:45 pm.</span></p>
+          <p class="b me">Add a stop: Ameerpet</p>
+          <p class="b bot">Interchange saved. You will be warned at <b>Punjagutta</b> before it.</p>
+        </div>
+      </div>
+      <div class="sv" data-view="2">
+        <div class="sv-chat">
+          <p class="b bot">Good morning. Dilsukhnagar &rarr; HITEC City today?</p>
+          <div class="b btns"><span>Start journey</span><span>WFH</span><span>On leave</span><span>Snooze 30</span></div>
+          <p class="b me">Start journey</p>
+          <p class="b bot">Tracking on. Share live location for 1 hour and lock your phone — I will take it from here.</p>
+        </div>
+      </div>
+      <div class="sv" data-view="3">
+        <div class="sv-chat">
+          <p class="b bot alertish"><b>1 stop before</b><br />Approaching <b>Punjagutta</b>. Next stop <b>Ameerpet</b> — change to the Blue Line towards Raidurg.</p>
+          <p class="b bot">Leg 2 of 2. Tracking towards <b>HITEC City</b>.</p>
+          <p class="b bot alertish"><b>1 stop before</b><br />Approaching <b>Durgam Cheruvu</b>. Your stop is next.</p>
+          <p class="b bot">Arrived. Have a good day — see you at 6:45 pm.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PEOPLE ============================ -->
+<section class="sec people">
+  <div class="wrap center">
+    <p class="eyebrow reveal">Who it is for</p>
+    <h2 class="h2 reveal" style="--d:.05s">Made for the people<br /><span class="dim">who ride it every day.</span></h2>
+  </div>
+
+  <div class="marquee">
+    <div class="mq-row" data-speed="46">
+      <div class="mq-track">
+        <article class="pcard"><span class="pc-tag">The power napper</span><p>Forty minutes of sleep between Dilsukhnagar and HITEC City, without a timer alarm that is always wrong.</p></article>
+        <article class="pcard"><span class="pc-tag">The earphone commuter</span><p>Podcast all the way in. The only thing that interrupts it is the station before yours.</p></article>
+        <article class="pcard"><span class="pc-tag">The interchange switcher</span><p>Ameerpet at 9 am is a crowd. Knowing it is next is the difference between walking off and being carried past.</p></article>
+        <article class="pcard"><span class="pc-tag">The reader</span><p>Three chapters a week, no glancing up at the sign board at every station.</p></article>
+        <article class="pcard"><span class="pc-tag">The night bus rider</span><p>Unlit road, no announcements, nothing out of the window you recognise. A ring 500 m out is enough.</p></article>
+      </div>
+    </div>
+    <div class="mq-row rev" data-speed="54">
+      <div class="mq-track">
+        <article class="pcard"><span class="pc-tag">The new joiner</span><p>First month in a new city, still counting stations on your fingers. Stop counting.</p></article>
+        <article class="pcard"><span class="pc-tag">The hybrid worker</span><p>Three days in, two at home, and the app knows which is which because you told it in one tap.</p></article>
+        <article class="pcard"><span class="pc-tag">The college commuter</span><p>Two buses and a metro leg, 7:10 am, every single weekday. Same route, same alerts.</p></article>
+        <article class="pcard"><span class="pc-tag">The late starter</span><p>Missed the 8:15 prompt? Snooze it, or say hi and the buttons come straight back.</p></article>
+        <article class="pcard"><span class="pc-tag">The last-mile walker</span><p>Metro out to Raidurg, then eleven minutes on foot. The walk is part of the trip, not an afterthought.</p></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FAQ ============================ -->
+<section class="sec" id="faq">
+  <div class="wrap narrow">
+    <h2 class="h2 reveal">Questions.</h2>
+    <div class="faq reveal" style="--d:.06s">
+      <details>
+        <summary>Which cities does it cover?<span class="chev" aria-hidden="true"></span></summary>
+        <div class="ans"><p>Hyderabad Metro is mapped station by station today — all 59 stations across the Red, Blue and Green lines, with the interchanges. Bus stops, offices and landmarks work anywhere, because those legs use a distance geofence rather than a station sequence. More metro networks are being added line by line.</p></div>
+      </details>
+      <details>
+        <summary>Is there an app to install?<span class="chev" aria-hidden="true"></span></summary>
+        <div class="ans"><p>No. CommutePilot is a Telegram bot, so it uses an app you already have, with notifications you already trust. Open the chat, run the setup once, and it works on any phone that runs Telegram.</p></div>
+      </details>
+      <details>
+        <summary>What about my battery?<span class="chev" aria-hidden="true"></span></summary>
+        <div class="ans"><p>There is no extra app running in the background all day. During a trip you share live location from Telegram for the hour, which the operating system already optimises, and it ends by itself when the trip does.</p></div>
+      </details>
+      <details>
+        <summary>Does it work underground?<span class="chev" aria-hidden="true"></span></summary>
+        <div class="ans"><p>Hyderabad Metro runs elevated, so GPS holds for the whole ride. On underground sections elsewhere, position goes stale in the tunnel and picks up again at the next elevated stretch or station — which is why the alert is tied to the preceding station rather than a precise metre count.</p></div>
+      </details>
+      <details>
+        <summary>Do I have to keep the chat open?<span class="chev" aria-hidden="true"></span></summary>
+        <div class="ans"><p>No. Lock the phone and put it away. The alerts arrive as notifications, with sound and vibration, like any other message.</p></div>
+      </details>
+      <details>
+        <summary>What happens on a day I do not travel?<span class="chev" aria-hidden="true"></span></summary>
+        <div class="ans"><p>Tap WFH or On leave on the morning prompt and the day goes quiet, evening included. Snooze 30 pushes the prompt back half an hour if you are simply running late.</p></div>
+      </details>
+      <details>
+        <summary>What do you keep about me?<span class="chev" aria-hidden="true"></span></summary>
+        <div class="ans"><p>Your stops, your times and the days you travel — the things the alerts need. Live location is used while a trip is running and is not kept as a history. No ads, and nothing sold on.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FINAL CTA ============================ -->
+<section class="sec final">
+  <div class="wrap center">
+    <div class="final-art reveal" aria-hidden="true">
+      <span class="fa-dot red"></span><span class="fa-seg"></span>
+      <span class="fa-dot red"></span><span class="fa-seg"></span>
+      <span class="fa-dot swap"></span><span class="fa-seg"></span>
+      <span class="fa-dot blue"></span><span class="fa-seg"></span>
+      <span class="fa-dot end"></span>
+    </div>
+    <h2 class="display sm reveal" style="--d:.05s">Your stop is coming.<br /><span class="dim">You will know first.</span></h2>
+    <p class="lede reveal" style="--d:.1s">Set it up once tonight. Tomorrow morning the commute runs itself.</p>
+    <div class="cta-row reveal" style="--d:.15s">
+      <a class="btn btn-dark" href="https://t.me/Travel_Notifier_bot" target="_blank" rel="noopener">
+        <svg class="i tg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 4.3 2.9 11.4c-1.1.4-1.1 1.1-.2 1.4l4.7 1.5 1.8 5.5c.2.6.4.8 1 .8.5 0 .7-.2 1-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.2-.5-1.8-1.5-1.7Z" fill="currentColor"/></svg>
+        Start on Telegram
+      </a>
+      <a class="btn btn-ghost" href="#start">Watch the morning tap</a>
+    </div>
+    <p class="fine reveal" style="--d:.2s">Free while in beta. Hyderabad Metro, city buses and walking legs.</p>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <div class="foot-brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="5.5" y="3" width="13" height="14.5" rx="4.4" fill="currentColor"/><rect x="8" y="5.8" width="8" height="4.6" rx="1.7" fill="#FFE44D"/><circle cx="9.6" cy="13.6" r="1.35" fill="#FFE44D"/><circle cx="14.4" cy="13.6" r="1.35" fill="#FFE44D"/><path d="M8.6 17.8 6.8 21M15.4 17.8 17.2 21" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </span>
+      <p>The commute autopilot.<br /><span class="muted">Metro, bus and walking legs, on a routine.</span></p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><h4>Product</h4><a href="#start">Morning tap</a><a href="#alert">One stop early</a><a href="#features">Features</a><a href="#how">How it works</a></div>
+      <div><h4>Cities</h4><a href="#faq">Hyderabad</a><a href="#faq">Delhi &mdash; soon</a><a href="#faq">Bengaluru &mdash; soon</a><a href="#faq">Mumbai &mdash; soon</a></div>
+      <div><h4>More</h4><a href="https://t.me/Travel_Notifier_bot" target="_blank" rel="noopener">Open the bot</a><a href="#faq">FAQ</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </nav>
+  </div>
+  <div class="wrap foot-base"><span>&copy; <span id="yr">2026</span> CommutePilot</span><span>Made for people who ride the same line every day.</span></div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

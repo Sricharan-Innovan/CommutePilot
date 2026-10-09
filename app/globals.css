@@ -1,0 +1,314 @@
+@import "tailwindcss";
+
+/* ===========================================================
+   Design tokens
+   =========================================================== */
+@theme {
+  --color-ink: #111111;
+  --color-ink-2: #555555;
+  --color-ink-3: #8c8c8c;
+  --color-ink-4: #b4b2ae;
+
+  --color-surface: #f6f5f3;
+  --color-surface-2: #eceae6;
+  --color-surface-3: #e2dfda;
+
+  --color-line-soft: rgba(17, 17, 17, 0.09);
+  --color-line-mid: rgba(17, 17, 17, 0.16);
+
+  --color-night: #141312;
+  --color-night-2: #1e1c1a;
+  --color-night-3: #2a2724;
+
+  --color-metro-red: #e2362f;
+  --color-metro-blue: #1f66e0;
+  --color-metro-green: #12925a;
+  --color-alert: #e9a225;
+  --color-alert-ink: #9c6a12;
+  --color-tg: #229ed9;
+
+  --font-sans: var(--font-geist), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ===========================================================
+   Base
+   =========================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: #fff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.55;
+    letter-spacing: -0.011em;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: #ffe9b8;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  button {
+    cursor: pointer;
+  }
+}
+
+/* ===========================================================
+   Utilities
+   =========================================================== */
+@utility display-xl {
+  font-size: clamp(42px, 6.6vw, 78px);
+  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+}
+@utility display-lg {
+  font-size: clamp(34px, 4.6vw, 56px);
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.042em;
+}
+@utility display-md {
+  font-size: clamp(26px, 2.6vw, 34px);
+  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* edge-faded scroller, as on the reference site */
+@utility mask-edges {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+@utility mask-edges-y {
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* ===========================================================
+   Motion
+   =========================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.65s ease var(--reveal-delay, 0s),
+    transform 0.8s var(--ease-out-soft) var(--reveal-delay, 0s);
+}
+.reveal[data-in="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes cp-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes cp-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+@keyframes cp-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(233, 162, 37, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(233, 162, 37, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(233, 162, 37, 0);
+  }
+}
+@keyframes cp-marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes cp-marquee-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+@keyframes cp-eq {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+@keyframes cp-progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes cp-sheen {
+  0% {
+    transform: translateX(-120%);
+  }
+  60%,
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+@keyframes cp-ink-sweep {
+  0% {
+    background-size:
+      0% 82%,
+      0% 34%;
+  }
+  58% {
+    background-size:
+      100% 82%,
+      46% 34%;
+  }
+  100% {
+    background-size:
+      100% 82%,
+      100% 34%;
+  }
+}
+
+/* marker ink: two passes that sweep across the words and wrap with them */
+.ink-hl {
+  background-image:
+    linear-gradient(100deg, #ffe88a 0%, #ffd84d 45%, #ffe272 100%),
+    linear-gradient(100deg, rgba(255, 196, 46, 0.9), rgba(255, 214, 80, 0.55));
+  background-repeat: no-repeat, no-repeat;
+  background-position:
+    0 86%,
+    0 98%;
+  background-size:
+    0% 82%,
+    0% 34%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0.1em 0.26em;
+  margin: 0 -0.12em;
+  border-radius: 0.34em 0.16em 0.38em 0.18em;
+}
+.ink-hl.is-on {
+  animation: cp-ink-sweep 1.6s cubic-bezier(0.33, 0.1, 0.25, 1) 0.35s forwards;
+}
+
+@keyframes cp-nudge {
+  0%,
+  86%,
+  100% {
+    transform: translateY(0);
+  }
+  91% {
+    transform: translateY(-4px);
+  }
+  96% {
+    transform: translateY(0);
+  }
+}
+
+/* a slow shine sweeping across, to catch the eye without shouting */
+.sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 22%, rgba(255, 255, 255, 0.85) 50%, transparent 78%);
+  transform: translateX(-120%);
+  animation: cp-sheen 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+.nudge {
+  animation: cp-nudge 5s ease-in-out infinite;
+}
+.nudge:hover {
+  animation-play-state: paused;
+}
+
+.eq-bar {
+  animation: cp-eq var(--dur, 1.3s) ease-in-out var(--delay, 0s) infinite;
+}
+.ring-pulse {
+  animation: cp-ring var(--dur, 2.4s) ease-out infinite;
+}
+.progress-bar {
+  animation: cp-progress 5.4s linear forwards;
+}
+.anim-pop {
+  animation: cp-pop 0.45s var(--ease-out-soft) both;
+}
+.anim-blink {
+  animation: cp-blink 1.6s infinite;
+}
+.anim-ring {
+  animation: cp-ring 1.5s infinite;
+}
+.marquee-x {
+  animation: cp-marquee-x var(--speed, 48s) linear infinite;
+}
+.marquee-y {
+  animation: cp-marquee-y var(--speed, 52s) linear infinite;
+}
+.marquee-rev {
+  animation-direction: reverse;
+}
+.group-pause:hover .marquee-x,
+.group-pause:hover .marquee-y {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* thin scrollbars inside mock panels */
+.panel-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
