@@ -30,7 +30,7 @@ export type Scene = {
 export const SCENES: Scene[] = [
   {
     id: "open",
-    ms: 3600,
+    ms: 2460,
     pose: "phone",
     act: "problem",
     caption: "Every weekday, the same ride.",
@@ -38,7 +38,7 @@ export const SCENES: Scene[] = [
   },
   {
     id: "know",
-    ms: 3200,
+    ms: 1830,
     pose: "lookup",
     act: "problem",
     caption: "You know this route by heart.",
@@ -46,7 +46,7 @@ export const SCENES: Scene[] = [
   },
   {
     id: "checking",
-    ms: 5200,
+    ms: 6250,
     pose: "lookup",
     act: "problem",
     checks: true,
@@ -55,7 +55,7 @@ export const SCENES: Scene[] = [
   },
   {
     id: "cost",
-    ms: 3600,
+    ms: 2710,
     pose: "phone",
     act: "problem",
     caption: "Nothing gets read. Nothing gets done.",
@@ -63,14 +63,14 @@ export const SCENES: Scene[] = [
   },
   {
     id: "doze",
-    ms: 3400,
+    ms: 1920,
     pose: "dozing",
     act: "problem",
     caption: "And the one time you switch off…",
   },
   {
     id: "missed",
-    ms: 3800,
+    ms: 3140,
     pose: "panic",
     act: "problem",
     missed: true,
@@ -79,7 +79,7 @@ export const SCENES: Scene[] = [
   },
   {
     id: "turn",
-    ms: 2800,
+    ms: 1430,
     pose: "phone",
     act: "turn",
     caption: "So stop watching it.",
@@ -87,7 +87,7 @@ export const SCENES: Scene[] = [
   },
   {
     id: "tap",
-    ms: 4000,
+    ms: 3480,
     pose: "phone",
     act: "product",
     notification: true,
@@ -96,7 +96,7 @@ export const SCENES: Scene[] = [
   },
   {
     id: "away",
-    ms: 4000,
+    ms: 1830,
     pose: "relaxed",
     act: "product",
     caption: "Then nothing.",
@@ -104,7 +104,7 @@ export const SCENES: Scene[] = [
   },
   {
     id: "alert",
-    ms: 4200,
+    ms: 2030,
     pose: "alerted",
     act: "product",
     alert: true,
@@ -113,7 +113,7 @@ export const SCENES: Scene[] = [
   },
   {
     id: "off",
-    ms: 3800,
+    ms: 2150,
     pose: "standing",
     act: "product",
     doors: true,
@@ -122,7 +122,7 @@ export const SCENES: Scene[] = [
   },
   {
     id: "end",
-    ms: 4600,
+    ms: 4260,
     pose: "standing",
     act: "end",
     endCard: true,
@@ -132,6 +132,12 @@ export const SCENES: Scene[] = [
 ];
 
 export const TOTAL_MS = SCENES.reduce((n, s) => n + s.ms, 0);
+
+/* Scene lengths are cut to the voiceover in public/story-vo.mp3 — each one
+   starts on a pause in the recording, so the captions land with the words.
+   Re-record and the numbers above need redoing. */
+export const VO_SRC = "/story-vo.mp3";
+export const VO_MS = 33490;
 
 /** Scene index and progress within it, from a clock in milliseconds. */
 export function sceneAt(t: number) {

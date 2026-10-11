@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { SCENES, TOTAL_MS, sceneAt, type Pose } from "./scenes";
+import { SCENES, TOTAL_MS, VO_SRC, sceneAt, type Pose } from "./scenes";
 import { useOnScreen, useReducedMotion } from "@/lib/hooks";
 
 /* ────────────────────────────────────────────────────────────
@@ -176,6 +176,8 @@ export default function Story({ clean = false, autoplay = true }: Props) {
   const reduced = useReducedMotion();
   const [t, setT] = useState(0);
   const [playing, setPlaying] = useState(autoplay);
+  const [sound, setSound] = useState(false);
+  const audio = useRef<HTMLAudioElement>(null);
   const raf = useRef(0);
   const last = useRef(0);
 
@@ -193,10 +195,16 @@ export default function Story({ clean = false, autoplay = true }: Props) {
       return;
     }
     const tick = (now: number) => {
-      if (!last.current) last.current = now;
-      const dt = now - last.current;
-      last.current = now;
-      setT((v) => (v + dt) % TOTAL_MS);
+      const el = audio.current;
+      if (sound && el && !el.paused) {
+        // the recording is the master clock, so captions never drift off the words
+        setT(Math.min(TOTAL_MS - 1, el.currentTime * 1000));
+      } else {
+        if (!last.current) last.current = now;
+        const dt = now - last.current;
+        last.current = now;
+        setT((v) => (v + dt) % TOTAL_MS);
+      }
       raf.current = requestAnimationFrame(tick);
     };
     raf.current = requestAnimationFrame(tick);
@@ -204,13 +212,40 @@ export default function Story({ clean = false, autoplay = true }: Props) {
       cancelAnimationFrame(raf.current);
       last.current = 0;
     };
-  }, [playing, onScreen, clean, reduced]);
+  }, [playing, onScreen, clean, reduced, sound]);
+
+  // keep the audio in step with play / pause / leaving the screen
+  useEffect(() => {
+    const el = audio.current;
+    if (!el) return;
+    if (sound && playing && (clean || onScreen) && !reduced) {
+      el.play().catch(() => setSound(false));
+    } else {
+      el.pause();
+    }
+  }, [sound, playing, onScreen, clean, reduced]);
 
   const { i, scene, p } = sceneAt(reduced ? 0 : t);
   const replay = useCallback(() => {
     setT(0);
     setPlaying(true);
-  }, []);
+    const el = audio.current;
+    if (el) {
+      el.currentTime = 0;
+      if (sound) el.play().catch(() => setSound(false));
+    }
+  }, [sound]);
+
+  const toggleSound = useCallback(() => {
+    const el = audio.current;
+    setSound((on) => {
+      if (!on && el) {
+        el.currentTime = t / 1000;
+        el.play().catch(() => {});
+      }
+      return !on;
+    });
+  }, [t]);
 
   // derived bits of business
   const checks = scene.checks ? Math.min(18, Math.floor(p * 20)) : 0;
@@ -223,7 +258,26 @@ export default function Story({ clean = false, autoplay = true }: Props) {
 
   return (
     <div ref={ref} className="w-full">
+      <audio ref={audio} src={VO_SRC} loop preload="auto" />
       <div className="relative overflow-hidden rounded-[22px] bg-[#0f1115]">
+        <button
+          onClick={toggleSound}
+          aria-pressed={sound}
+          className="absolute top-4 right-4 z-10 flex items-center gap-1.5 rounded-full bg-white/12 px-3 py-1.5 text-[11.5px] font-medium text-white/80 backdrop-blur-sm transition-colors hover:bg-white/20"
+        >
+          {sound ? (
+            <svg viewBox="0 0 24 24" className="size-[13px]" fill="currentColor">
+              <path d="M4 9v6h4l5 4V5L8 9H4Z" />
+              <path d="M16 8.5a5 5 0 0 1 0 7" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" className="size-[13px]" fill="currentColor">
+              <path d="M4 9v6h4l5 4V5L8 9H4Z" />
+              <path d="m16 9.5 5 5m0-5-5 5" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+            </svg>
+          )}
+          {sound ? "Sound on" : "Sound off"}
+        </button>
         <svg viewBox="0 0 960 540" className="block w-full shrink-0" role="img" aria-label={`${scene.caption} ${scene.sub ?? ""}`}>
           <defs>
             <clipPath id="win">
